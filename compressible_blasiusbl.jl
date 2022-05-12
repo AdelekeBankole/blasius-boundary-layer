@@ -15,16 +15,22 @@ default(linewidth=4)
 Pr = 0.7 # Prandtl number
 Ma = 5.0 # Mach number
 
-# viscosity model 
+# viscosity model for now treat as constants
 
 η_max = 10.0
 N = 30
 x_resid = gausslegendre(N-3)[1]
 dx_dη = 2 / η_max
 
+f = zeros(N)
+h = zeros(N)
+
 function CompressibleBlasiusResidual(f, h)
     f = ChebyshevT(f)
     h = ChebyshevT(h)
+    f_η = derivative(f, 1) * dx_dη
+    f_ηη = derivative(f_η, 1) * dx_dη
+    f_ηηη = derivative(f_ηη, 1) * dx_dη
     
 end
 
