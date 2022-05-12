@@ -31,6 +31,18 @@ function CompressibleBlasiusResidual(f, h)
     f_η = derivative(f, 1) * dx_dη
     f_ηη = derivative(f_η, 1) * dx_dη
     f_ηηη = derivative(f_ηη, 1) * dx_dη
+    blasius = 2 * f_ηηη + f_ηη * f
+    blasius_h = h_ηη + Pr * f * h_η + Pr * (γ - 1) * Ma * Ma * f_ηη * f_ηη # enthalpy equation
     
+
 end
+
+solution = nlsolve(CompressibleBlasiusResidual, f)
+
+f = ChebyshevT(solution.zero)
+f_η = derivative(f, 1) * dx_dη
+f_ηη = derivative(f_η, 1) * dx_dη
+
+x = LinRange(-1, 1, 100)
+η = (x .+ 1) * η_max / 2
 
